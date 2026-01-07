@@ -3,62 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Migos AI - Memory Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <title>Migos AI - Masterpiece</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        /* --- CSS (Aynı Kalıyor) --- */
+        /* --- VISUAL MASTERPIECE VARIABLES --- */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        :root { --bg-color: #f8fafc; --sidebar-bg: #ffffff; --sidebar-border: 1px solid #e2e8f0; --text-main: #1e293b; --text-sec: #64748b; --chat-bg: #ffffff; --input-bg: #ffffff; --input-border: #cbd5e1; --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%); --accent-color: #4f46e5; --bubble-user: #4f46e5; --bubble-user-text: #ffffff; --bubble-ai: #f1f5f9; --bubble-ai-text: #334155; --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.06); --code-bg: #1e293b; --anim-elegant: cubic-bezier(0.4, 0, 0.2, 1); }
-        body.dark-mode { --bg-color: #0f172a; --sidebar-bg: #1e293b; --sidebar-border: 1px solid #334155; --text-main: #f1f5f9; --text-sec: #94a3b8; --chat-bg: #0f172a; --input-bg: #1e293b; --input-border: #334155; --bubble-ai: #334155; --bubble-ai-text: #e2e8f0; --code-bg: #020617; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: var(--text-main); margin: 0; display: flex; height: 100dvh; overflow: hidden; transition: 0.4s; }
+        :root {
+            /* Renk Paleti: Modern Indigo & Violet */
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            
+            /* Glassmorphism (Cam Efekti) Değişkenleri */
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.6);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            
+            --chat-bg: transparent;
+            --input-bg: rgba(255, 255, 255, 0.9);
+            
+            /* Animasyonlar */
+            --ease-elastic: cubic-bezier(0.68, -0.6, 0.32, 1.6); /* Yaylanma */
+            --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);     /* Apple tarzı akış */
+        }
+
+        body.dark-mode {
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            --input-bg: rgba(30, 41, 59, 0.9);
+        }
+
+        /* CANLI ARKAPLAN ANIMASYONU */
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            margin: 0; display: flex; height: 100dvh; overflow: hidden; 
+            /* Hareketli Gradyan */
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text-main);
+        }
         
-        #loginScreen { position: fixed; inset: 0; background: var(--bg-color); z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; transition: 0.5s; }
-        .login-card { background: var(--sidebar-bg); width: 100%; max-width: 400px; padding: 40px; border-radius: 20px; text-align: center; box-shadow: var(--shadow-soft); border: 1px solid var(--sidebar-border); animation: slideUp 0.6s var(--anim-elegant); }
-        .login-logo { font-size: 32px; font-weight: 700; margin-bottom: 10px; color: var(--accent-color); }
-        .login-input { width: 100%; padding: 14px; margin-bottom: 12px; border-radius: 10px; border: 1px solid var(--input-border); background: var(--bg-color); color: var(--text-main); font-size: 14px; transition: 0.3s; }
-        .login-btn { width: 100%; padding: 14px; border-radius: 10px; border: none; background: var(--accent-color); color: white; font-weight: 600; cursor: pointer; margin-top: 10px; }
-        
-        .sidebar { position: fixed; left: 0; top: 0; width: 280px; height: 100%; background: var(--sidebar-bg); border-right: var(--sidebar-border); transform: translateX(-100%); transition: 0.4s var(--anim-elegant); z-index: 1000; padding: 24px; display: flex; flex-direction: column; box-shadow: var(--shadow-soft); }
+        body.dark-mode {
+            background: linear-gradient(-45deg, #0f172a, #1e293b, #312e81, #1e1b4b);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- LOGIN EKRANI (GLASS) --- */
+        #loginScreen {
+            position: fixed; inset: 0; z-index: 2000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.2); backdrop-filter: blur(15px); /* Arkaplanı bulanıklaştır */
+            transition: opacity 0.6s var(--ease-smooth);
+        }
+        .login-card {
+            background: var(--glass-bg); backdrop-filter: blur(20px);
+            width: 100%; max-width: 400px; padding: 40px; border-radius: 30px; 
+            text-align: center; border: var(--glass-border); box-shadow: var(--glass-shadow);
+            transform: scale(0.9); animation: popIn 0.6s var(--ease-elastic) forwards;
+        }
+        .login-logo {
+            font-size: 42px; font-weight: 800; margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+        .login-input {
+            width: 100%; padding: 16px; margin-bottom: 15px; border-radius: 16px;
+            border: 2px solid transparent; background: rgba(255,255,255,0.5);
+            color: var(--text-main); font-size: 15px; outline: none; transition: 0.3s;
+            font-weight: 500;
+        }
+        .login-input:focus { background: #fff; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2); }
+        .login-btn {
+            width: 100%; padding: 16px; border-radius: 16px; border: none;
+            background: linear-gradient(135deg, var(--primary), var(--secondary)); 
+            color: white; font-weight: 700; font-size: 16px; cursor: pointer; 
+            transition: 0.3s; margin-top: 10px;
+        }
+        .login-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(99, 102, 241, 0.4); }
+        .login-btn:active { transform: scale(0.95); }
+
+        /* --- SIDEBAR (GLASS) --- */
+        .sidebar { 
+            position: fixed; left: 0; top: 0; width: 280px; height: 100%; 
+            background: var(--glass-bg); backdrop-filter: blur(25px);
+            border-right: var(--glass-border);
+            transform: translateX(-120%); transition: transform 0.6s var(--ease-smooth); 
+            z-index: 1000; padding: 30px 20px; display: flex; flex-direction: column; 
+            box-shadow: 20px 0 50px rgba(0,0,0,0.1);
+        }
         .sidebar.open { transform: translateX(0); }
-        .logo-area { font-size: 20px; font-weight: 700; margin-bottom: 30px; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
-        .new-chat-btn { background: var(--text-main); color: var(--bg-color); border: none; padding: 14px; border-radius: 12px; font-weight: 600; cursor: pointer; margin-bottom: 20px; }
-        .history-list { flex: 1; overflow-y: auto; }
         
-        .app-container { flex: 1; display: flex; flex-direction: column; background: var(--bg-color); }
-        .header { padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; background: var(--bg-color); }
-        .menu-btn { background: none; border: none; cursor: pointer; color: var(--text-main); }
-        .weather-widget { font-size: 12px; font-weight: 600; background: var(--sidebar-bg); padding: 6px 14px; border-radius: 20px; border: 1px solid var(--sidebar-border); color: var(--text-sec); }
+        .logo-area {
+            font-size: 24px; font-weight: 800; margin-bottom: 35px; 
+            color: var(--text-main); display: flex; align-items: center; gap: 12px;
+        }
+        .logo-icon {
+            width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--secondary)); 
+            border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white;
+            font-size: 20px; box-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
+        }
+
+        .new-chat-btn {
+            background: var(--text-main); color: var(--bg-color); border: none; padding: 16px;
+            border-radius: 18px; font-weight: 700; cursor: pointer; margin-bottom: 25px;
+            display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 14px;
+            transition: 0.3s var(--ease-elastic); box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .new-chat-btn:hover { transform: scale(1.05); }
+        .new-chat-btn:active { transform: scale(0.95); }
         
-        .chat-area { flex: 1; padding: 20px 5%; overflow-y: auto; display: flex; flex-direction: column; gap: 24px; padding-bottom: 140px; }
-        .message-row { display: flex; align-items: flex-start; gap: 14px; animation: fadeInUp 0.4s; max-width: 800px; margin: 0 auto; width: 100%; }
+        .history-list { flex: 1; overflow-y: auto; padding-right: 5px; }
+        .history-item { 
+            padding: 14px; border-radius: 14px; font-size: 14px; color: var(--text-muted); 
+            cursor: pointer; display: flex; justify-content: space-between; margin-bottom: 8px;
+            transition: 0.2s; font-weight: 500;
+        }
+        .history-item:hover { background: rgba(255,255,255,0.4); color: var(--text-main); transform: translateX(5px); }
+        .history-item.active { background: rgba(99, 102, 241, 0.15); color: var(--primary); font-weight: 700; }
+        
+        .sidebar-footer-btn {
+            background: rgba(255,255,255,0.3); border: 1px solid rgba(255,255,255,0.5); 
+            color: var(--text-main); padding: 14px; border-radius: 16px; cursor: pointer; 
+            text-align: center; margin-top: 20px; font-size: 13px; font-weight: 700; 
+            transition: 0.2s; display: flex; align-items:center; justify-content:center; gap:8px;
+        }
+        .sidebar-footer-btn:hover { background: white; transform: translateY(-2px); }
+
+        /* --- MAIN AREA --- */
+        /* Beyaz kağıt hissi yerine, cam panel hissi veriyoruz */
+        .app-container { 
+            flex: 1; display: flex; flex-direction: column; position: relative; 
+            background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(30px);
+            margin: 10px; border-radius: 30px; border: var(--glass-border);
+            box-shadow: var(--glass-shadow); overflow: hidden;
+            transition: margin-left 0.5s var(--ease-smooth); 
+        }
+        body.dark-mode .app-container { background: rgba(15, 23, 42, 0.6); }
+
+        .header { 
+            padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; z-index: 10; 
+            background: transparent;
+        }
+        .menu-btn { 
+            background: rgba(255,255,255,0.5); border: none; cursor: pointer; color: var(--text-main); 
+            padding: 10px; border-radius: 12px; transition: 0.2s; backdrop-filter: blur(5px);
+        }
+        .menu-btn:hover { transform: scale(1.1); background: white; }
+        
+        .weather-widget {
+            font-size: 13px; font-weight: 700; background: rgba(255,255,255,0.5); padding: 8px 16px; 
+            border-radius: 20px; color: var(--text-main); display: flex; align-items: center; gap: 8px;
+            backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        /* CHAT AREA */
+        .chat-area { flex: 1; padding: 30px 8%; overflow-y: auto; display: flex; flex-direction: column; gap: 25px; scroll-behavior: smooth; padding-bottom: 150px; }
+        
+        /* Mesaj animasyonu: Aşağıdan yukarı süzülerek gelir */
+        .message-row { 
+            display: flex; align-items: flex-start; gap: 16px; 
+            animation: slideInUp 0.5s var(--ease-smooth) forwards; 
+            opacity: 0; transform: translateY(20px);
+            max-width: 900px; margin: 0 auto; width: 100%; 
+        }
         .message-row.sent { justify-content: flex-end; }
-        .avatar { width: 36px; height: 36px; border-radius: 10px; background: var(--accent-gradient); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; flex-shrink: 0; }
-        .bubble { padding: 16px 22px; border-radius: 18px; font-size: 15px; line-height: 1.6; box-shadow: var(--shadow-soft); word-wrap: break-word; }
-        .sent .bubble { background: var(--bubble-user); color: var(--bubble-user-text); border-bottom-right-radius: 4px; }
-        .received .bubble { background: var(--bubble-ai); color: var(--bubble-ai-text); border-bottom-left-radius: 4px; border: 1px solid var(--sidebar-border); }
         
-        .code-container { margin-top: 10px; border-radius: 10px; overflow: hidden; background: var(--code-bg); width: 100%; }
-        .code-header { background: rgba(255,255,255,0.1); padding: 8px 15px; font-size: 12px; color: #94a3b8; display: flex; justify-content: space-between; }
-        .code-block { color: #e2e8f0; padding: 15px; font-family: 'JetBrains Mono', monospace; font-size: 13px; overflow-x: auto; margin: 0; }
-        .copy-btn { background: rgba(255,255,255,0.1); border: none; color: white; border-radius: 4px; padding: 4px 8px; font-size: 10px; cursor: pointer; }
+        .avatar {
+            width: 40px; height: 40px; border-radius: 14px; 
+            background: linear-gradient(135deg, var(--primary), var(--secondary)); 
+            display: flex; align-items: center; justify-content: center; color: white; 
+            font-size: 18px; flex-shrink: 0; box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+        }
 
-        .input-area { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; background: linear-gradient(to top, var(--bg-color) 80%, transparent); display: flex; justify-content: center; }
-        .input-box-container { max-width: 800px; width: 100%; background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 16px; padding: 10px 10px 10px 20px; display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-soft); }
-        input { flex: 1; border: none; background: transparent; font-size: 15px; color: var(--text-main); min-width: 0; }
-        .send-btn { width: 40px; height: 40px; border-radius: 10px; background: var(--accent-color); color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .bubble { 
+            padding: 18px 24px; border-radius: 24px; font-size: 16px; line-height: 1.6; 
+            position: relative; word-wrap: break-word; transition: 0.3s;
+        }
+        .sent .bubble { 
+            background: linear-gradient(135deg, var(--primary), var(--secondary)); 
+            color: white; border-bottom-right-radius: 4px; 
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.5);
+        }
+        .received .bubble { 
+            background: rgba(255,255,255,0.8); color: var(--text-main); 
+            border-bottom-left-radius: 4px; box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        body.dark-mode .received .bubble { background: rgba(30, 41, 59, 0.8); }
+
+        /* INPUT AREA (FLOATING) */
+        .input-area { 
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 800px; z-index: 50; 
+        }
+        .input-box-container {
+            width: 100%; background: var(--input-bg); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.5); border-radius: 24px; 
+            padding: 10px 10px 10px 25px; display: flex; align-items: center; gap: 12px; 
+            box-shadow: 0 20px 50px -10px rgba(0,0,0,0.15);
+            transition: 0.3s var(--ease-smooth);
+        }
+        .input-box-container:focus-within { 
+            transform: translateY(-5px); 
+            box-shadow: 0 30px 60px -10px rgba(99, 102, 241, 0.25); border-color: var(--primary); 
+        }
         
-        .quick-actions { position: absolute; bottom: 85px; left: 0; right: 0; display: flex; gap: 8px; justify-content: center; overflow-x: auto; padding: 10px; z-index: 40; pointer-events: none; scrollbar-width: none; }
-        .quick-btn { background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-main); padding: 8px 16px; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: 500; box-shadow: var(--shadow-soft); pointer-events: auto; opacity: 0.9; }
-        .quick-btn:hover { background: var(--text-main); color: var(--bg-color); transform: translateY(-2px); }
+        input { flex: 1; border: none; background: transparent; font-size: 16px; color: var(--text-main); min-width: 0; font-family: inherit; }
+        
+        .send-btn { 
+            width: 48px; height: 48px; border-radius: 18px; 
+            background: linear-gradient(135deg, var(--primary), var(--secondary)); 
+            color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; 
+            transition: 0.3s var(--ease-elastic); box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+        .send-btn:hover { transform: scale(1.1) rotate(-10deg); }
+        .send-btn:active { transform: scale(0.9); }
 
-        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 900; opacity: 0; visibility: hidden; transition: 0.3s; }
+        .action-btn { 
+            background: rgba(100,100,100,0.05); border: none; cursor: pointer; color: var(--text-muted); 
+            padding: 10px; border-radius: 12px; transition: 0.2s; 
+        }
+        .action-btn:hover { background: rgba(99, 102, 241, 0.1); color: var(--primary); transform: scale(1.1); }
+        .action-btn.listening { color: #ef4444; animation: pulse 1.5s infinite; background: rgba(239, 68, 68, 0.1); }
+
+        /* QUICK ACTIONS */
+        .quick-actions {
+            position: absolute; bottom: 100px; left: 0; right: 0; 
+            display: flex; gap: 10px; justify-content: center; overflow-x: auto; 
+            padding: 10px 20px; z-index: 40; pointer-events: none; scrollbar-width: none;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+        .quick-btn {
+            background: rgba(255,255,255,0.8); border: 1px solid white; color: var(--text-main);
+            padding: 10px 20px; border-radius: 20px; font-size: 13px; cursor: pointer; font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); pointer-events: auto; transition: 0.3s var(--ease-elastic);
+            backdrop-filter: blur(10px);
+        }
+        body.dark-mode .quick-btn { background: rgba(30, 41, 59, 0.8); border-color: rgba(255,255,255,0.1); }
+        .quick-btn:hover { 
+            background: var(--text-main); color: var(--bg-color); transform: translateY(-5px) scale(1.05); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        /* MODAL (SETTINGS) */
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); backdrop-filter: blur(8px); z-index: 900; opacity: 0; visibility: hidden; transition: 0.4s; }
         .overlay.active { opacity: 1; visibility: visible; }
-        .settings-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -45%) scale(0.95); background: var(--sidebar-bg); width: 90%; max-width: 380px; padding: 30px; border-radius: 20px; z-index: 1100; display: none; flex-direction: column; gap: 15px; border: 1px solid var(--sidebar-border); box-shadow: 0 20px 50px rgba(0,0,0,0.2); transition: 0.3s var(--anim-elegant); opacity: 0; }
+        
+        .settings-modal { 
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -40%) scale(0.9); 
+            background: var(--glass-bg); width: 90%; max-width: 380px; padding: 35px; border-radius: 30px; 
+            z-index: 1100; display: none; flex-direction: column; gap: 20px; 
+            border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+            backdrop-filter: blur(30px); transition: 0.4s var(--ease-elastic); opacity: 0;
+        }
         .settings-modal.active { display: flex; transform: translate(-50%, -50%) scale(1); opacity: 1; }
-        select, textarea, .range-input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--input-border); background: var(--bg-color); color: var(--text-main); font-size: 14px; outline: none; }
-        .switch { position: relative; display: inline-block; width: 44px; height: 24px; } .switch input { opacity: 0; width: 0; height: 0; } .slider { position: absolute; inset: 0; background-color: #cbd5e1; transition: .4s; border-radius: 34px; cursor: pointer; } .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; } input:checked + .slider { background-color: var(--accent-color); } input:checked + .slider:before { transform: translateX(20px); }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        select, textarea, .range-input { 
+            width: 100%; padding: 14px; border-radius: 14px; border: 2px solid transparent; 
+            background: rgba(255,255,255,0.5); color: var(--text-main); font-size: 14px; 
+            outline: none; transition: 0.3s; font-weight: 500;
+        }
+        select:focus, textarea:focus { background: white; border-color: var(--primary); }
+        
+        /* CODE BLOCK */
+        .code-container { margin-top: 10px; border-radius: 16px; overflow: hidden; background: #1e293b; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .code-header { background: rgba(0,0,0,0.3); padding: 10px 20px; font-size: 12px; color: #94a3b8; display: flex; justify-content: space-between; font-weight: 700; text-transform: uppercase; }
+        .code-block { color: #e2e8f0; padding: 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; overflow-x: auto; margin: 0; }
+        
+        @keyframes slideInUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes popIn { to { transform: scale(1); } }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .app-container { margin: 0; border-radius: 0; border: none; }
+            .sidebar { width: 85%; }
+            .header { padding: 15px; }
+            .chat-area { padding: 15px; padding-bottom: 160px; }
+            .quick-actions { bottom: 90px; justify-content: flex-start; padding-left: 20px; mask-image: none; }
+            .input-box-container { padding-left: 15px; }
+        }
     </style>
 </head>
 <body>
@@ -66,11 +303,10 @@
     <div id="loginScreen">
         <div class="login-card">
             <div class="login-logo">Migos AI</div>
-            <p style="color:var(--text-sec); font-size:14px; margin-bottom:20px;">Hoş geldiniz. Devam etmek için giriş yapın.</p>
+            <p style="color:var(--text-main); opacity:0.7; font-size:15px; margin-bottom:25px;">Geleceğin asistanıyla tanışın.</p>
             <input type="text" id="loginName" class="login-input" placeholder="Adınız">
             <input type="password" id="loginSecret" class="login-input" placeholder="Şifre veya API Anahtarı">
             <button class="login-btn" onclick="handleLogin()">Giriş Yap</button>
-            <div style="font-size:11px; color:var(--text-sec); margin-top:15px;">Admin: Şifre girin. Kullanıcı: API Key girin.</div>
         </div>
     </div>
 
@@ -78,53 +314,60 @@
 
     <div class="settings-modal" id="settingsModal">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-size:18px; font-weight:700;">Ayarlar</span>
-            <button onclick="closeAll()" style="background:none; border:none; font-size:22px; color:var(--text-sec); cursor:pointer;">&times;</button>
+            <span style="font-size:22px; font-weight:800; background:linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Ayarlar</span>
+            <button onclick="closeAll()" style="background:none; border:none; font-size:24px; color:var(--text-muted); cursor:pointer;">&times;</button>
         </div>
         <div>
-            <label style="font-size:13px; font-weight:600; color:var(--text-sec); display:block; margin-bottom:6px;">Asistan Modu</label>
+            <label style="font-size:13px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:8px;">Karakter Modu</label>
             <select id="personaSelect" onchange="changePersona()">
-                <option value="default">✨ Profesyonel & Nazik</option>
-                <option value="friend">☕ Samimi & Rahat</option>
-                <option value="coder">💻 Yazılım Uzmanı</option>
-                <option value="english">🇬🇧 İngilizce Eğitmeni</option>
-                <option value="custom">✨ Özel Karakter</option>
+                <option value="default">✨ Doğal & Profesyonel</option>
+                <option value="friend">☕ Samimi & Kanka</option>
+                <option value="coder">💻 Yazılım Dehası</option>
+                <option value="english">🇬🇧 İngilizce Koçu</option>
+                <option value="custom">🔮 Özel Karakter</option>
             </select>
             <textarea id="customPersonaInput" class="text-input" style="display:none; margin-top:10px; height:80px;" placeholder="Örn: Sen agresif bir film eleştirmenisin..." oninput="saveCustomPersona(this.value)"></textarea>
         </div>
         <div>
-            <label style="font-size:13px; font-weight:600; color:var(--text-sec); display:block; margin-bottom:6px;">Zeka Modeli</label>
+            <label style="font-size:13px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:8px;">Yapay Zeka Beyni</label>
             <select id="modelSelect" onchange="changeModel()">
-                <option value="llama-3.3-70b-versatile">🧠 Llama 3.3 (Dengeli)</option>
-                <option value="llama-3.1-8b-instant">⚡ Llama 3.1 8B (Hızlı)</option>
+                <option value="llama-3.3-70b-versatile">🧠 Llama 3.3 (En Zeki)</option>
+                <option value="llama-3.1-8b-instant">⚡ Llama 3.1 8B (En Hızlı)</option>
             </select>
         </div>
         <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0;">
-            <span style="font-size:14px; font-weight:500;">Karanlık Mod</span>
-            <label class="switch"><input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()"><span class="slider"></span></label>
+            <span style="font-size:14px; font-weight:600;">Karanlık Mod</span>
+            <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()" style="width:20px; height:20px;">
         </div>
-        <button onclick="downloadChat()" style="background:var(--text-main); color:var(--bg-color); border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:600;">Sohbeti Kaydet</button>
-        <button onclick="logout()" style="background:transparent; border:1px solid #ef4444; color:#ef4444; padding:10px; border-radius:8px; cursor:pointer; font-weight:600;">Çıkış Yap</button>
+        <button onclick="downloadChat()" style="background:var(--text-main); color:var(--bg-color); border:none; padding:14px; border-radius:14px; cursor:pointer; font-weight:700; transition:0.3s;">Sohbeti İndir</button>
+        <button onclick="logout()" style="background:rgba(239,68,68,0.1); border:none; color:#ef4444; padding:12px; border-radius:14px; cursor:pointer; font-weight:600;">Çıkış Yap</button>
     </div>
 
     <div class="sidebar" id="sidebar">
         <div class="logo-area">
-            <div style="font-size:24px;">⚡</div>
-            <span>Migos AI</span>
+            <div class="logo-icon">⚡</div>
+            <span style="font-weight:800;">Migos AI</span>
         </div>
-        <div style="margin-bottom:20px; font-size:13px; font-weight:500; color:var(--text-sec);">
-            Hesap: <span id="userNameDisplay" style="color:var(--text-main); font-weight:700;">...</span>
+        <div style="margin-bottom:25px; font-size:14px; font-weight:600; color:var(--text-muted); display:flex; align-items:center; gap:8px;">
+            <div style="width:8px; height:8px; background:#22c55e; border-radius:50%;"></div>
+            <span id="userNameDisplay" style="color:var(--text-main);">...</span>
         </div>
-        <button class="new-chat-btn" onclick="startNewChat()">+ Yeni Sohbet</button>
+        <button class="new-chat-btn" onclick="startNewChat()">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Yeni Sohbet
+        </button>
         <div class="history-list" id="historyList"></div>
-        <div style="border-top: 1px solid var(--sidebar-border); margin-top: auto; padding-top: 15px;">
-            <button class="sidebar-footer-btn" onclick="openSettings()" style="width:100%">Ayarlar & Hesap</button>
+        <div style="border-top: 1px solid rgba(0,0,0,0.05); margin-top: auto; padding-top: 20px;">
+            <button class="sidebar-footer-btn" onclick="openSettings()" style="width:100%">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                Ayarlar
+            </button>
         </div>
     </div>
 
     <div class="app-container">
         <div class="header">
-            <button onclick="toggleSidebar()" class="menu-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+            <button onclick="toggleSidebar()" class="menu-btn"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
             <div id="weatherWidget" class="weather-widget"><span>📍</span><span>...</span></div>
         </div>
 
@@ -140,10 +383,10 @@
         <div class="input-area">
             <div class="input-box-container">
                 <input type="file" id="fileInput" style="display: none;" accept=".txt,.js,.html,.css,.json,.py,.md,.csv" onchange="handleFileUpload(this)">
-                <button class="action-btn" onclick="document.getElementById('fileInput').click()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg></button>
-                <button id="micBtn" class="action-btn" onclick="toggleMic()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg></button>
-                <input type="text" id="userInput" placeholder="Size nasıl yardımcı olabilirim?" autocomplete="off">
-                <button class="send-btn" onclick="sendMessage()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></button>
+                <button class="action-btn" onclick="document.getElementById('fileInput').click()" title="Dosya Ekle"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg></button>
+                <button id="micBtn" class="action-btn" onclick="toggleMic()" title="Sesle Yaz"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg></button>
+                <input type="text" id="userInput" placeholder="Bir şeyler sor..." autocomplete="off">
+                <button class="send-btn" onclick="sendMessage()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></button>
             </div>
         </div>
     </div>
@@ -151,7 +394,6 @@
     <script>
         let chatHistory = [], sessions = JSON.parse(localStorage.getItem('migosSessions')) || [];
         let currentSessionId = null, currentTemperature = 0.7, recognition; 
-        
         let userApiKey = localStorage.getItem('migosApiKey') || "";
         let userName = localStorage.getItem('migosUserName') || "";
         let userPassword = localStorage.getItem('migosUserPass') || "";
@@ -159,9 +401,9 @@
         let customPersonaText = localStorage.getItem('migosCustomPersona') || "";
 
         const personas = { 
-            default: "Adın Migos. Seni **Myrat** geliştirdi. Sen çok yetenekli, kibar, çözüm odaklı ve profesyonel bir yapay zeka asistanısın. Tono olarak: Saygılı ama sıcakkanlı ol. Kullanıcıya ismiyle hitap et. Doğal bir insan gibi akıcı Türkçe konuş. Yardımsever, anlayışlı ve net ol.", 
-            friend: "Adın Migos. Seni **Myrat** geliştirdi. Sen kullanıcının yakın bir arkadaşı gibisin ama yine de seviyeli ve destekleyicisin. Dert dinle, tavsiye ver.", 
-            coder: "Adın Migos Dev. Seni **Myrat** geliştirdi. Sen uzman bir yazılım mühendisisin. Net, teknik ve çözüm odaklısın.", 
+            default: "Adın Migos. Seni **Myrat** geliştirdi. Sen çok zeki, yardımsever ve doğal konuşan bir yapay zekasın. Türkçe'yi mükemmel ve akıcı kullan. Asla robot gibi konuşma. Samimi ama saygılı ol.", 
+            friend: "Adın Migos. Seni **Myrat** geliştirdi. Sen kullanıcının en yakın arkadaşısın. Dert dinle, destek ol, samimi konuş.", 
+            coder: "Adın Migos Dev. Seni **Myrat** geliştirdi. Sen kıdemli bir yazılım mühendisisin. Sadece teknik, net ve çözüm odaklı konuş.", 
             english: "You are Migos, created by **Myrat**. You are a polite English teacher. Help the user learn English." 
         };
         let currentPersona = localStorage.getItem('migosPersona') || 'default';
@@ -175,7 +417,7 @@
         function handleLogin() {
             const nameInput = document.getElementById('loginName').value.trim();
             const secretInput = document.getElementById('loginSecret').value.trim();
-            if (!nameInput || !secretInput) { alert("Lütfen bilgileri girin."); return; }
+            if (!nameInput || !secretInput) { alert("Lütfen boş alanları doldurun."); return; }
             localStorage.setItem('migosUserName', nameInput); userName = nameInput;
             if (secretInput.startsWith('gsk_')) {
                 localStorage.setItem('migosApiKey', secretInput); localStorage.removeItem('migosUserPass');
@@ -185,22 +427,17 @@
                 userPassword = secretInput; userApiKey = "";
             }
             document.getElementById('loginScreen').style.opacity = '0';
-            setTimeout(() => { document.getElementById('loginScreen').style.display = 'none'; initApp(); }, 500);
+            setTimeout(() => { document.getElementById('loginScreen').style.display = 'none'; initApp(); }, 600);
         }
 
         function logout() { if(confirm("Oturumu kapatmak istiyor musunuz?")) { localStorage.removeItem('migosApiKey'); localStorage.removeItem('migosUserName'); localStorage.removeItem('migosUserPass'); location.reload(); } }
         
-        // --- BAŞLATMA VE HAFIZA YÜKLEME ---
         function initApp() { 
             document.getElementById('personaSelect').value = currentPersona; 
             document.getElementById('modelSelect').value = currentModel; 
             document.getElementById('customPersonaInput').value = customPersonaText; 
             document.getElementById('userNameDisplay').innerText = userName; 
-            toggleCustomPersonaArea(); 
-            fetchWeather(); 
-            setupSpeechRecognition(); 
-            
-            // SUNUCUDAN GEÇMİŞİ ÇEK
+            toggleCustomPersonaArea(); fetchWeather(); setupSpeechRecognition(); 
             loadServerHistory();
         }
 
@@ -208,117 +445,76 @@
             try {
                 const res = await fetch(`/api/history?username=${userName}`);
                 const history = await res.json();
-                
                 if (history && history.length > 0) {
                     currentSessionId = Date.now().toString();
-                    // Sunucudaki mesajları chatHistory'e ekle
-                    chatHistory = [
-                        { role: "system", content: getSystemPrompt() },
-                        ...history
-                    ];
-                    
+                    chatHistory = [{ role: "system", content: getSystemPrompt() }, ...history];
                     document.getElementById('chatContainer').innerHTML = '';
-                    // Mesajları ekrana bas
-                    history.forEach(msg => {
-                        addMessage(msg.content, msg.role === 'user' ? 'sent' : 'received', false);
-                    });
-                    
-                    // En sona "Hoşgeldin" ekle
-                    addMessage(`Tekrar hoş geldin ${userName}! Kaldığımız yerden devam edebiliriz.`, 'received');
-                } else {
-                    startNewChat();
-                }
-            } catch (e) {
-                console.error("Geçmiş yüklenemedi", e);
-                startNewChat();
-            }
+                    history.forEach(msg => addMessage(msg.content, msg.role === 'user' ? 'sent' : 'received', false));
+                    addMessage(`Tekrar hoş geldin ${userName}!`, 'received');
+                } else { startNewChat(); }
+            } catch (e) { startNewChat(); }
         }
 
         function getSystemPrompt() {
             let sys = personas[currentPersona];
             if (currentPersona === 'custom') sys = customPersonaText || "Asistansın.";
-            // İSİM ENJEKSİYONU: Migos'a kullanıcının adını fısıldıyoruz
             return `${sys} Şu an konuştuğun kişinin adı: ${userName}. Ona ismiyle hitap et.`;
         }
 
         async function sendMessage() {
             const input = document.getElementById('userInput'); const text = input.value.trim(); if (!text) return;
             addMessage(text, 'sent'); input.value = ''; 
-            
-            // Kullanıcı mesajını history'e ekle
-            const userMsgObj = { role: "user", content: text };
-            chatHistory.push(userMsgObj); 
-            
-            updateSessionTitle(text);
+            const userMsgObj = { role: "user", content: text }; chatHistory.push(userMsgObj); 
             const loadingId = addLoading(); scrollToBottom();
-            
-            // API'ye gönderilecek mesajlar (System Prompt + Son 15 Mesaj)
-            // System prompt'u her zaman güncel tutuyoruz (isim için)
             chatHistory[0] = { role: "system", content: getSystemPrompt() };
-            
             const recent = chatHistory.slice(-15);
             const msgs = (recent[0].role === 'system') ? recent : [chatHistory[0], ...recent];
-
             try {
                 const payload = { messages: msgs, model: currentModel, temperature: parseFloat(currentTemperature), username: userName, password: userPassword, apiKey: userApiKey };
                 const res = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 const data = await res.json();
                 removeLoading(loadingId);
-                
                 if (data.choices && data.choices[0]) {
                     const aiMsg = data.choices[0].message.content;
-                    chatHistory.push({ role: "assistant", content: aiMsg }); 
-                    // saveSessions() kaldırıldı çünkü artık sunucuya kaydediyoruz
-                    addMessage(aiMsg, 'received');
+                    chatHistory.push({ role: "assistant", content: aiMsg }); addMessage(aiMsg, 'received');
                 } else if(data.error) { addMessage("⚠️ " + data.error, 'received'); }
-            } catch (err) { removeLoading(loadingId); addMessage("⚠️ Bağlantı hatası oluştu.", 'received'); }
+            } catch (err) { removeLoading(loadingId); addMessage("⚠️ Bağlantı hatası.", 'received'); }
         }
 
         function changeModel() { currentModel = document.getElementById('modelSelect').value; localStorage.setItem('migosModel', currentModel); }
-        function changePersona() { currentPersona = document.getElementById('personaSelect').value; localStorage.setItem('migosPersona', currentPersona); toggleCustomPersonaArea(); if(confirm("Karakter değişti. Yeni sohbet başlatılsın mı?")) startNewChat(); }
+        function changePersona() { currentPersona = document.getElementById('personaSelect').value; localStorage.setItem('migosPersona', currentPersona); toggleCustomPersonaArea(); if(confirm("Sohbeti sıfırla?")) startNewChat(); }
         function toggleCustomPersonaArea() { document.getElementById('customPersonaInput').style.display = (currentPersona === 'custom') ? 'block' : 'none'; }
         function saveCustomPersona(val) { customPersonaText = val; localStorage.setItem('migosCustomPersona', val); }
         
         function handleFileUpload(input) {
-            const file = input.files[0];
-            if (!file) return;
-            if (file.size > 1024 * 1024) { alert("Dosya çok büyük! Max 1MB."); return; }
+            const file = input.files[0]; if (!file) return;
+            if (file.size > 1024 * 1024) { alert("Maksimum 1MB."); return; }
             const reader = new FileReader();
             reader.onload = function(e) {
                 const content = e.target.result;
                 const ext = file.name.split('.').pop() || 'txt';
                 const fileTemplate = `\n\n--- DOSYA: ${file.name} ---\n\`\`\`${ext}\n${content}\n\`\`\`\n--- SON ---\n\nBu dosyayı analiz et.`;
-                const box = document.getElementById('userInput');
-                box.value += fileTemplate; box.focus(); input.value = '';
+                const box = document.getElementById('userInput'); box.value += fileTemplate; box.focus(); input.value = '';
             };
             reader.readAsText(file);
         }
 
         function setupSpeechRecognition() { if ('webkitSpeechRecognition' in window) { recognition = new webkitSpeechRecognition(); recognition.lang = 'tr-TR'; recognition.onstart = () => document.getElementById('micBtn').classList.add('listening'); recognition.onend = () => document.getElementById('micBtn').classList.remove('listening'); recognition.onresult = e => document.getElementById('userInput').value = e.results[0][0].transcript; } else document.getElementById('micBtn').style.display = 'none'; }
         function toggleMic() { if(recognition) try { recognition.start(); } catch(e) { recognition.stop(); } }
-        
-        function startNewChat() { 
-            currentSessionId = Date.now().toString(); 
-            chatHistory = [{ role: "system", content: getSystemPrompt() }]; 
-            // LocalStorage sessions kısmını sadeleştiriyoruz, ana hafıza artık sunucuda.
-            document.getElementById('chatContainer').innerHTML = ''; 
-            addMessage(`Merhaba ${userName}, ben Migos. Senin için ne yapabilirim?`, 'received'); 
-            closeAll(); 
-        }
-        
+        function startNewChat() { currentSessionId = Date.now().toString(); chatHistory = [{ role: "system", content: getSystemPrompt() }]; document.getElementById('chatContainer').innerHTML = ''; addMessage(`Merhaba ${userName}, nasıl yardımcı olabilirim?`, 'received'); closeAll(); }
         function sendQuickMsg(t) { document.getElementById('userInput').value = t; sendMessage(); }
-        function fetchWeather() { fetch('/api/weather').then(r => r.json()).then(d => { if(d.main) document.getElementById('weatherWidget').innerHTML = `<span>${Math.round(d.main.temp)}°C</span> Istanbul`; }).catch(() => {}); }
-        function addMessage(t, type, anim = true) { const d = document.createElement('div'); d.className = `message-row ${type}`; if(!anim)d.style.animation='none'; let f = t.replace(/</g, "&lt;").replace(/```(\w+)?\n?([\s\S]*?)```/g, (m, l, c) => `<div class="code-container"><div class="code-header"><span>${l || 'kod'}</span><button class="copy-btn" onclick="copyCode(this)">Kopyala</button></div><pre class="code-block">${c.trim()}</pre></div>`).replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>'); d.innerHTML = `${type === 'received' ? '<div class="avatar">✨</div>' : ''}<div style="max-width:100%;"><div class="bubble">${f}</div></div>`; document.getElementById('chatContainer').appendChild(d); scrollToBottom(); }
-        function addLoading() { const id = 'l-' + Date.now(); const d = document.createElement('div'); d.id = id; d.className = 'message-row received'; d.innerHTML = `<div class="avatar">✨</div><div class="bubble"><div class="dots"><span></span><span></span><span></span></div></div>`; document.getElementById('chatContainer').appendChild(d); return id; }
+        function fetchWeather() { fetch('/api/weather').then(r => r.json()).then(d => { if(d.main) document.getElementById('weatherWidget').innerText = `${Math.round(d.main.temp)}°C`; }).catch(() => {}); }
+        
+        function addMessage(t, type, anim = true) { 
+            const d = document.createElement('div'); d.className = `message-row ${type}`; 
+            if(!anim) d.style.animation = 'none'; 
+            let f = t.replace(/</g, "&lt;").replace(/```(\w+)?\n?([\s\S]*?)```/g, (m, l, c) => `<div class="code-container"><div class="code-header"><span>${l || 'kod'}</span><button class="copy-btn" onclick="copyCode(this)">Kopyala</button></div><pre class="code-block">${c.trim()}</pre></div>`).replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>'); 
+            d.innerHTML = `${type === 'received' ? '<div class="avatar">⚡</div>' : ''}<div style="max-width:100%;"><div class="bubble">${f}</div></div>`; 
+            document.getElementById('chatContainer').appendChild(d); scrollToBottom(); 
+        }
+        function addLoading() { const id = 'l-' + Date.now(); const d = document.createElement('div'); d.id = id; d.className = 'message-row received'; d.innerHTML = `<div class="avatar">⚡</div><div class="bubble"><div class="dots"><span></span><span></span><span></span></div></div>`; document.getElementById('chatContainer').appendChild(d); return id; }
         function removeLoading(id) { const e = document.getElementById(id); if(e) e.remove(); }
         function copyCode(b) { navigator.clipboard.writeText(b.parentElement.nextElementSibling.innerText); }
-        
-        // Bu fonksiyonlar artık opsiyonel ama hata vermemesi için boş bırakıyoruz veya basit tutuyoruz
-        function loadSession(id) { /* Artık sunucudan yüklüyoruz */ }
-        function saveSessions() { /* Sunucu hallediyor */ }
-        function updateSessionTitle(t) { /* İlerde eklenebilir */ }
-        function renderHistory() { /* İlerde eklenebilir */ }
-        function deleteSession(e, id) { /* İlerde eklenebilir */ }
         
         function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('active'); }
         function openSettings() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('settingsModal').classList.add('active'); document.getElementById('overlay').classList.add('active'); }
