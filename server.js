@@ -8,13 +8,41 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// DİKKAT: Eski 'public' klasörü satırını sildik.
-// Yerine, ana sayfaya girilince direkt index.html'i gönder diyoruz.
+// Ana Sayfa
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
-// --- 1. CHAT API ---
+app.use(express.static('public'));
+
+// --- YARDIMCI: Sohbetleri Dosyadan Oku/Yaz ---
+const CHAT_FILE = 'chats.json';
+
+function getChats() {
+    try {
+        if (!fs.existsSync(CHAT_FILE)) fs.writeFileSync(CHAT_FILE, '{}');
+        return JSON.parse(fs.readFileSync(CHAT_FILE, 'utf8'));
+    } catch (e) { return {}; }
+}
+
+function saveChat(username, messageObj) {
+    const allChats = getChats();
+    if (!allChats[username]) allChats[username] = []; // Kullanıcı yoksa oluştur
+    allChats[username].push(messageObj);
+    fs.writeFileSync(CHAT_FILE, JSON.stringify(allChats, null, 2));
+}
+
+// --- 1. GEÇMİŞİ GETİR (YENİ) ---
+app.get('/api/history', (req, res) => {
+    const { username } = req.query;
+    if (!username) return res.json([]);
+    
+    const allChats = getChats();
+    // Kullanıcının geçmişini döndür, yoksa boş dizi ver
+    res.json(allChats[username] || []);
+});
+
+// --- 2. CHAT API (GÜNCELLENDİ) ---
 app.post('/api/chat', async (req, res) => {
     let { messages, model, temperature, apiKey, username, password } = req.body;
 
@@ -24,22 +52,18 @@ app.post('/api/chat', async (req, res) => {
             const usersData = fs.readFileSync('users.json', 'utf8');
             const users = JSON.parse(usersData);
             const foundUser = users.find(u => u.username === username && u.password === password);
-
-            if (foundUser) {
-                console.log(`👑 Yetkili Giriş: ${username}`);
-                apiKey = process.env.GROQ_API_KEY;
-            }
-        } catch (error) {
-            console.error("User DB Hatası:", error);
-        }
+            if (foundUser) apiKey = process.env.GROQ_API_KEY;
+        } catch (error) { console.error("User DB Hatası:", error); }
     }
 
-    // B. ANAHTAR KONTROLÜ
-    if (!apiKey) {
-        return res.status(401).json({ error: "Giriş Başarısız! Şifre yanlış veya API Key yok." });
-    }
+    if (!apiKey) return res.status(401).json({ error: "Giriş Başarısız!" });
 
-    // C. GROQ İSTEĞİ
+    // B. KULLANICI MESAJINI KAYDET
+    // Son mesajı alıp dosyaya kaydediyoruz
+    const userMessage = messages[messages.length - 1];
+    saveChat(username, userMessage);
+
+    // C. GROQ İSTEĞİ (Sistem Mesajı Dahil)
     try {
         const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
@@ -52,17 +76,21 @@ app.post('/api/chat', async (req, res) => {
 
         const data = await response.json();
         if (data.error) throw new Error(data.error.message);
+
+        // D. AI CEVABINI KAYDET
+        const aiMessage = data.choices[0].message;
+        saveChat(username, aiMessage);
+
         res.json(data);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-// --- 2. HAVA DURUMU API ---
+// --- 3. HAVA DURUMU ---
 app.get('/api/weather', async (req, res) => {
     const key = process.env.WEATHER_API_KEY;
     if(!key) return res.status(500).json({error:"Key yok"});
-    
     try {
         const r = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=Istanbul&units=metric&lang=tr&appid=${key}`);
         const d = await r.json();
@@ -71,6 +99,4 @@ app.get('/api/weather', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`🚀 Migos Sunucusu Çalışıyor: http://localhost:${PORT}`);
-});
+app.listen(PORT, () => console.log(`🚀 Migos Hafızalı Sunucu: http://localhost:${PORT}`));
