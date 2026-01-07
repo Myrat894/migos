@@ -8,12 +8,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Ana Sayfa
+// --- DÜZELTME BURADA ---
+// Artık 'public' klasörü aramıyoruz. Direkt ana dizindeki index.html'i veriyoruz.
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
-
-app.use(express.static('public'));
 
 // --- YARDIMCI: Sohbetleri Dosyadan Oku/Yaz ---
 const CHAT_FILE = 'chats.json';
@@ -27,26 +26,23 @@ function getChats() {
 
 function saveChat(username, messageObj) {
     const allChats = getChats();
-    if (!allChats[username]) allChats[username] = []; // Kullanıcı yoksa oluştur
+    if (!allChats[username]) allChats[username] = [];
     allChats[username].push(messageObj);
     fs.writeFileSync(CHAT_FILE, JSON.stringify(allChats, null, 2));
 }
 
-// --- 1. GEÇMİŞİ GETİR (YENİ) ---
+// --- 1. GEÇMİŞİ GETİR ---
 app.get('/api/history', (req, res) => {
     const { username } = req.query;
     if (!username) return res.json([]);
-    
     const allChats = getChats();
-    // Kullanıcının geçmişini döndür, yoksa boş dizi ver
     res.json(allChats[username] || []);
 });
 
-// --- 2. CHAT API (GÜNCELLENDİ) ---
+// --- 2. CHAT API ---
 app.post('/api/chat', async (req, res) => {
     let { messages, model, temperature, apiKey, username, password } = req.body;
 
-    // A. KULLANICI KONTROLÜ
     if (password) {
         try {
             const usersData = fs.readFileSync('users.json', 'utf8');
@@ -58,12 +54,10 @@ app.post('/api/chat', async (req, res) => {
 
     if (!apiKey) return res.status(401).json({ error: "Giriş Başarısız!" });
 
-    // B. KULLANICI MESAJINI KAYDET
-    // Son mesajı alıp dosyaya kaydediyoruz
+    // Kullanıcı mesajını kaydet
     const userMessage = messages[messages.length - 1];
     saveChat(username, userMessage);
 
-    // C. GROQ İSTEĞİ (Sistem Mesajı Dahil)
     try {
         const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
@@ -77,7 +71,7 @@ app.post('/api/chat', async (req, res) => {
         const data = await response.json();
         if (data.error) throw new Error(data.error.message);
 
-        // D. AI CEVABINI KAYDET
+        // AI cevabını kaydet
         const aiMessage = data.choices[0].message;
         saveChat(username, aiMessage);
 
@@ -99,4 +93,4 @@ app.get('/api/weather', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Migos Hafızalı Sunucu: http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Sunucu Hazır: http://localhost:${PORT}`));
